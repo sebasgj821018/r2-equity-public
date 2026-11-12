@@ -1,9 +1,18 @@
-"""Quickstart: equity-football-risk sobre datos sinteticos."""
+"""Quickstart: equity-football-risk sobre datos sinteticos.
+
+Funciona sin instalar el paquete (bootstrap de sys.path) o tras `pip install -e .`.
+"""
+import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 import pandas as pd
 from equity_football_risk import gini, pure_premium, tvar, solidarity_transfers
 
-csv = Path(__file__).resolve().parents[1] / "data_synthetic" / "club_season_load_synthetic.csv"
+csv = ROOT / "data_synthetic" / "club_season_load_synthetic.csv"
 df = pd.read_csv(csv)
 load = df.groupby("club")["load_E"].mean().sort_values(ascending=False)
 print("Gini de carga media:", round(gini(load.values), 3))
